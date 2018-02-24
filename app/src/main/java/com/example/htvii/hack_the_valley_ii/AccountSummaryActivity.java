@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -53,28 +54,46 @@ public class AccountSummaryActivity extends BaseActivity {
                 @Override
                 public void onClick(View view){
                     TextView text = (TextView) view;
-                    navigate((String) text.getText());
+                    navigateToRecord((String) text.getText());
+                }
+            });
+
+            ImageButton manualButton = findViewById(R.id.manualrecord);
+            manualButton.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View view){
+
+                }
+            });
+
+            ImageButton cameraButton = findViewById(R.id.camerarecord);
+            cameraButton.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View view){
+
+                }
+            });
+
+            ImageButton galleryButton = findViewById(R.id.galleryrecord);
+            galleryButton.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View view){
+
                 }
             });
         }
     }
 
     //TODO: implement logic
-    private void navigate(String record){
+    private void navigateToRecord(String record){
         startActivity(new Intent(this, RecordActivity.class));
     }
 
-    //TODO: get balance from database
     public float getBalance(){
         return accountData.balance;
     }
 
-    //TODO: get account name from database
     public String getAccountName(){
         return accountData.accountName;
     }
 
-    //TODO: get records from database
     public List<Record> getRecord (Date date){
         List <Record> records = new ArrayList<Record>();
         for (Record record : accountData.records) {
