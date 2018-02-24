@@ -95,6 +95,7 @@ public class AccountSummaryActivity extends BaseActivity {
         }
     }
 
+    //TODO: do something wit the image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK){
