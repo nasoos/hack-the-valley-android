@@ -1,5 +1,9 @@
 package com.example.htvii.hack_the_valley_ii.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,6 +12,5 @@ import java.util.List;
 
 public class AccountData {
     public List<Record> records;
-    public float balance;
     public String accountName;
 }

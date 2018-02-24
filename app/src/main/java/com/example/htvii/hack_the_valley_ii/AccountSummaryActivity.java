@@ -47,7 +47,7 @@ public class AccountSummaryActivity extends BaseActivity {
         balance.setText("$" + String.format("%.2f", getBalance()));
         TextView accountName = (TextView) findViewById(R.id.accountname);
         accountName.setText(getAccountName());
-        List<Record> recordlist = getRecord(new Date(2018,1,24));
+        List<Record> recordlist = getRecord(getToday());
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getRecordStr(recordlist));
         /*ListView listView = (ListView) findViewById(R.id.recordListView);
         listView.setAdapter(adapter);*/
@@ -70,6 +70,7 @@ public class AccountSummaryActivity extends BaseActivity {
             ImageButton manualButton = findViewById(R.id.manualrecord);
             manualButton.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
+                    onManualButtonClick();
                 }
             });
 
@@ -117,11 +118,15 @@ public class AccountSummaryActivity extends BaseActivity {
 
     //TODO: implement logic
     private void navigateToRecord(String record){
-        startActivity(new Intent(this, RecordActivity.class));
+        navigate(new Intent(this, RecordActivity.class));
     }
 
     public float getBalance(){
-        return accountData.balance;
+        float balance = 0;
+        for (int i = 0; i < accountData.records.size(); i++){
+            balance += accountData.records.get(i).transaction;
+        }
+        return balance;
     }
 
     public String getAccountName(){
@@ -131,7 +136,7 @@ public class AccountSummaryActivity extends BaseActivity {
     public List<Record> getRecord (Date date){
         List <Record> records = new ArrayList<Record>();
         for (Record record : accountData.records) {
-            if (record.datecreated.getYear() == date.getYear() && record.datecreated.getMonth() == date.getMonth() && record.datecreated.getDay() == date.getDay()){
+            if (record.year == date.getYear() && record.month == date.getMonth() && record.day == date.getDay()){
                 records.add(record);
             }
         }
@@ -144,5 +149,9 @@ public class AccountSummaryActivity extends BaseActivity {
             recordStrs.add(record.name);
         }
         return recordStrs;
+    }
+
+    private void onManualButtonClick(){
+        navigate(new Intent(this, ManualRecordActivity.class));
     }
 }

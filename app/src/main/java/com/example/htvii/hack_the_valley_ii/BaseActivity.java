@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +21,12 @@ import android.widget.TextView;
 import com.example.htvii.hack_the_valley_ii.models.AccountData;
 import com.example.htvii.hack_the_valley_ii.models.Record;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,14 +46,37 @@ public class BaseActivity extends AppCompatActivity
     //TODO: Load account data from database instead of the temp data
     private void loadAccountData() {
         accountData = new AccountData();
-        accountData.accountName = "Youth Account";
-        accountData.balance = 29.59f;
-        accountData.records = new ArrayList<Record>();
-        accountData.records.add(new Record("Chicken", -9.54f, new Date(2018,1,24)));
-        accountData.records.add(new Record("Cabbage", -19.20f, new Date(2018,1,24)));
-        accountData.records.add(new Record("Eggs", -3.54f, new Date(2018,1,23)));
-        accountData.records.add(new Record("Carrots", -8.54f, new Date(2018,1,22)));
-        accountData.records.add(new Record("Pizza", -87.54f, new Date(2018,1,24)));
+        intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            accountData.accountName = (String) bundle.getSerializable("accountName");
+            int count = (int) bundle.getSerializable("count");
+            accountData.records = new ArrayList<Record>();
+            for (int i = 0; i < count; i++) {
+                accountData.records.add((Record) bundle.getSerializable("record" + Integer.toString(i)));
+            }
+        }
+        else {
+            accountData = new AccountData();
+            accountData.accountName = "Youth Account";
+            accountData.records = new ArrayList<Record>();
+            accountData.records.add(new Record("Chicken", -9.54f, getToday()));
+            accountData.records.add(new Record("Cabbage", -19.20f, getToday()));
+            accountData.records.add(new Record("Eggs", -3.54f, getToday()));
+            accountData.records.add(new Record("Carrots", -8.54f, new Date(2018, 1, 22)));
+            accountData.records.add(new Record("Pizza", -87.54f, new Date(2018, 1, 24)));
+        }
+    }
+
+    public void navigate(Intent intent){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("accountName", accountData.accountName);
+        bundle.putSerializable("count", accountData.records.size());
+        for (int i = 0; i < accountData.records.size(); i ++){
+            bundle.putSerializable("record"+Integer.toString(i), accountData.records.get(i));
+        }
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void setView(){
@@ -143,5 +173,9 @@ public class BaseActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public Date getToday(){
+        return Calendar.getInstance().getTime();
     }
 }

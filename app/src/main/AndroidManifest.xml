@@ -27,12 +27,12 @@
         </activity>
         <activity
             android:name=".RecordActivity"
+            android:label="@string/title_activity_record"
             android:parentActivityName=".AccountSummaryActivity" />
         <activity
             android:name=".ManualRecordActivity"
             android:label="@string/title_activity_manual_record"
-            android:parentActivityName=".AccountSummaryActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".AccountSummaryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.htvii.hack_the_valley_ii.AccountSummaryActivity" />
