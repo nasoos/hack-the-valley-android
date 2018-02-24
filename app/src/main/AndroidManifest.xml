@@ -13,14 +13,19 @@
             android:name=".BaseActivity"
             android:label="@string/title_activity_base"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AccountSummaryActivity"
+        <activity
+            android:name=".AccountSummaryActivity"
             android:label="@string/title_activity_account_summary"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RecordActivity"
+            android:parentActivityName="com.example.htvii.hack_the_valley_ii.AccountSummaryActivity" />
     </application>
 
 </manifest>

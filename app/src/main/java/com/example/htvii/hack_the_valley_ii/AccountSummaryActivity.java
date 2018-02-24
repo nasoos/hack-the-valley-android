@@ -1,6 +1,7 @@
 package com.example.htvii.hack_the_valley_ii;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -60,7 +61,7 @@ public class AccountSummaryActivity extends BaseActivity {
 
     //TODO: implement logic
     private void navigate(String record){
-
+        startActivity(new Intent(this, RecordActivity.class));
     }
 
     //TODO: get balance from database
