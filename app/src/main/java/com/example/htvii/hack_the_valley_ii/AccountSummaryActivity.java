@@ -2,6 +2,10 @@ package com.example.htvii.hack_the_valley_ii;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +14,15 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.htvii.hack_the_valley_ii.models.Record;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AccountSummaryActivity extends BaseActivity {
+    private static final int IMAGE_GALLERY_RESULT = 20;
     private ArrayAdapter<String> adapter;
 
     @Override
@@ -61,7 +70,6 @@ public class AccountSummaryActivity extends BaseActivity {
             ImageButton manualButton = findViewById(R.id.manualrecord);
             manualButton.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
-
                 }
             });
 
@@ -75,11 +83,36 @@ public class AccountSummaryActivity extends BaseActivity {
             ImageButton galleryButton = findViewById(R.id.galleryrecord);
             galleryButton.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    String pictureDirectoryPath = pictureDirectory.getPath();
 
+                    Uri data = Uri.parse(pictureDirectoryPath);
+                    photoPickerIntent.setDataAndType(data, "image/*");
+                    startActivityForResult(photoPickerIntent, IMAGE_GALLERY_RESULT);
                 }
             });
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == RESULT_OK){
+            if (requestCode == IMAGE_GALLERY_RESULT){
+                Uri imageUri = data.getData();
+                InputStream inputStream;
+                try {
+                    inputStream = getContentResolver().openInputStream(imageUri);
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText( this , "Unable to open Image", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
 
     //TODO: implement logic
     private void navigateToRecord(String record){
