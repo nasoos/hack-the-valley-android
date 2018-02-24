@@ -29,7 +29,73 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <!--contenthere-->
+        <!-- content here -->
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            style="@style/Content" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/balance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="$29.59"
+                        style="@style/BalanceText"/>
+
+                    <TextView
+                        android:id="@+id/accountname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="temp account name"
+                        style="@style/AccountNameText"/>
+
+                    <LinearLayout
+                        style="@style/iconcontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/manualrecord"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_menu_add" />
+
+                        <ImageButton
+                            android:id="@+id/camerarecord"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_menu_camera" />
+                    </LinearLayout>
+
+                    <!--<ListView
+                        android:id="@+id/recordListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />-->
+
+                    <LinearLayout
+                        android:id="@+id/recordlinearlayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </ScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -16,14 +16,37 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.example.htvii.hack_the_valley_ii.models.AccountData;
+import com.example.htvii.hack_the_valley_ii.models.Record;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public AccountData accountData;
+
     private Intent intent;
     private Menu nav_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadAccountData();
+    }
+
+    //TODO: Load account data from database instead of the temp data
+    private void loadAccountData() {
+        accountData = new AccountData();
+        accountData.accountName = "Youth Account";
+        accountData.balance = 29.59f;
+        accountData.records = new ArrayList<Record>();
+        accountData.records.add(new Record("Chicken", -9.54f, new Date(2018,1,24)));
+        accountData.records.add(new Record("Cabbage", -19.20f, new Date(2018,1,24)));
+        accountData.records.add(new Record("Eggs", -3.54f, new Date(2018,1,23)));
+        accountData.records.add(new Record("Carrots", -8.54f, new Date(2018,1,22)));
+        accountData.records.add(new Record("Pizza", -87.54f, new Date(2018,1,24)));
     }
 
     public void setView(){
