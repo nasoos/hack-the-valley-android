@@ -26,12 +26,12 @@
                 android:text="Expense"
                 android:textSize="36dp" />
 
-            <Spinner
+<!--            <Spinner
                 android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp" />
+                android:textSize="20dp" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                     android:ems="10"
                     android:textSize="18dp"
                     android:inputType="textPersonName"
-                    android:text="enter name here" />
+                    android:hint="enter name here" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="$"
+                    android:text="-$"
                     android:textSize="16dp"
                     android:layout_weight="0.4"/>
 
@@ -76,7 +76,7 @@
                     android:ems="10"
                     android:textSize="18dp"
                     android:inputType="numberDecimal"
-                    android:text="0.00"
+                    android:hint="0.00"
                     android:gravity="right"/>
 
                 <TextView

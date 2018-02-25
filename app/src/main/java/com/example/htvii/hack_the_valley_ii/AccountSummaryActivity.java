@@ -59,7 +59,7 @@ public class AccountSummaryActivity extends BaseActivity {
 
             LinearLayout linearLayout = (LinearLayout) findViewById(R.id.recordlinearlayout);
             for (int i = 0; i < adapter.getCount(); i++) {
-                View record = adapter.getView(i, null, null);
+                final View record = adapter.getView(i, null, null);
                 View div = (View) getLayoutInflater().inflate(R.layout.divtemplate, null);
                 linearLayout.addView(record);
                 linearLayout.addView(div);
@@ -68,7 +68,8 @@ public class AccountSummaryActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         TextView text = (TextView) view;
-                        navigateToRecord((String) text.getText());
+                        String recordName = ((String) text.getText()).substring(0, ((String) text.getText()).indexOf(" -$"));
+                        navigateToRecord(recordName);
                     }
                 });
             }

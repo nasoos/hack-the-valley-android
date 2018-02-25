@@ -26,7 +26,7 @@ public class RecordActivity extends BaseActivity {
             EditText recordName = (EditText) findViewById(R.id.recordName);
             EditText expense = (EditText) findViewById(R.id.expense);
             recordName.setText(curRecord.name);
-            expense.setText(String.valueOf(-curRecord.transaction));
+            expense.setText( String.format("%.2f",-curRecord.transaction));
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -43,7 +43,7 @@ public class RecordActivity extends BaseActivity {
                     EditText expense = (EditText) findViewById(R.id.expense);
                     Date date = getToday();
                     curRecord.name = recordName.getText().toString();
-                    curRecord.transaction = -Float.parseFloat(expense.getText().toString());
+                    curRecord.transaction = -Math.abs(Float.parseFloat(expense.getText().toString()));
                     curRecord.year = date.getYear();
                     curRecord.month = date.getMonth();
                     curRecord.day = date.getDay();
@@ -51,6 +51,9 @@ public class RecordActivity extends BaseActivity {
                     returnToHome();
                 }
             });
+        }
+        else{
+            returnToHome();
         }
     }
 

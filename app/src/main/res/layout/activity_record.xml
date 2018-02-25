@@ -37,12 +37,12 @@
                     app:srcCompat="@drawable/ic_menu_trash" />
             </LinearLayout>
 
-            <Spinner
+<!--            <Spinner
                 android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp" />
+                android:textSize="20dp" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"

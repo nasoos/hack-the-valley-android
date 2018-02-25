@@ -27,8 +27,10 @@ public class ManualRecordActivity extends BaseActivity {
                 EditText recordName = (EditText) findViewById(R.id.recordName);
                 EditText expense = (EditText) findViewById(R.id.expense);
                 Date date = getToday();
-                accountData.records.add(new Record(recordName.getText().toString(), Float.parseFloat(expense.getText().toString()), date));
-                returnToHome();
+                if (!recordName.getText().toString().matches("") && !expense.getText().toString().matches("")) {
+                    accountData.records.add(new Record(recordName.getText().toString(), -Math.abs(Float.parseFloat(expense.getText().toString())), date));
+                    returnToHome();
+                }
             }
         });
     }
