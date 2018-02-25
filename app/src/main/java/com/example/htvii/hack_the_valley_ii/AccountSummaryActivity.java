@@ -43,56 +43,56 @@ public class AccountSummaryActivity extends BaseActivity {
     @Override
     public void setView(){
         super.setView();
-        TextView balance = (TextView) findViewById(R.id.balance);
-        balance.setText("$" + String.format("%.2f", getBalance()));
-        TextView accountName = (TextView) findViewById(R.id.accountname);
-        accountName.setText(getAccountName());
-        List<Record> recordlist = getRecord(getToday());
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getRecordStr(recordlist));
-        /*ListView listView = (ListView) findViewById(R.id.recordListView);
-        listView.setAdapter(adapter);*/
+        if (accountData != null && accountData.records != null) {
+            TextView balance = (TextView) findViewById(R.id.balance);
+            balance.setText("$" + String.format("%.2f", getBalance()));
+            TextView accountName = (TextView) findViewById(R.id.accountname);
+            accountName.setText(getAccountName());
+            List<Record> recordlist = getRecord(getToday());
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getRecordStr(recordlist));
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.recordlinearlayout);
-        for (int i = 0; i < adapter.getCount(); i++) {
-            View record = adapter.getView(i, null, null);
-            View div = (View) getLayoutInflater().inflate(R.layout.divtemplate,null);
-            linearLayout.addView(record);
-            linearLayout.addView(div);
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.recordlinearlayout);
+            for (int i = 0; i < adapter.getCount(); i++) {
+                View record = adapter.getView(i, null, null);
+                View div = (View) getLayoutInflater().inflate(R.layout.divtemplate, null);
+                linearLayout.addView(record);
+                linearLayout.addView(div);
 
-            record.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view){
+                record.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
                     TextView text = (TextView) view;
                     navigateToRecord((String) text.getText());
-                }
-            });
+                    }
+                });
 
-            ImageButton manualButton = findViewById(R.id.manualrecord);
-            manualButton.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View view){
+                ImageButton manualButton = findViewById(R.id.manualrecord);
+                manualButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
                     onManualButtonClick();
-                }
-            });
+                    }
+                });
 
-            ImageButton cameraButton = findViewById(R.id.camerarecord);
-            cameraButton.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View view){
-                    onCameraButtonClick();
-                }
-            });
+                ImageButton cameraButton = findViewById(R.id.camerarecord);
+                cameraButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        onCameraButtonClick();
+                    }
+                });
 
-            ImageButton galleryButton = findViewById(R.id.galleryrecord);
-            galleryButton.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View view){
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                    String pictureDirectoryPath = pictureDirectory.getPath();
+                ImageButton galleryButton = findViewById(R.id.galleryrecord);
+                galleryButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                        String pictureDirectoryPath = pictureDirectory.getPath();
 
-                    Uri data = Uri.parse(pictureDirectoryPath);
-                    photoPickerIntent.setDataAndType(data, "image/*");
-                    startActivityForResult(photoPickerIntent, IMAGE_GALLERY_RESULT);
-                }
-            });
+                        Uri data = Uri.parse(pictureDirectoryPath);
+                        photoPickerIntent.setDataAndType(data, "image/*");
+                        startActivityForResult(photoPickerIntent, IMAGE_GALLERY_RESULT);
+                    }
+                });
+            }
         }
     }
 
@@ -123,8 +123,10 @@ public class AccountSummaryActivity extends BaseActivity {
 
     public float getBalance(){
         float balance = 0;
-        for (int i = 0; i < accountData.records.size(); i++){
-            balance += accountData.records.get(i).transaction;
+        if (accountData.records != null) {
+            for (int i = 0; i < accountData.records.size(); i++) {
+                balance += accountData.records.get(i).transaction;
+            }
         }
         return balance;
     }
@@ -135,9 +137,11 @@ public class AccountSummaryActivity extends BaseActivity {
 
     public List<Record> getRecord (Date date){
         List <Record> records = new ArrayList<Record>();
-        for (Record record : accountData.records) {
-            if (record.year == date.getYear() && record.month == date.getMonth() && record.day == date.getDay()){
-                records.add(record);
+        if (accountData.records != null) {
+            for (Record record : accountData.records) {
+                if (record.year == date.getYear() && record.month == date.getMonth() && record.day == date.getDay()) {
+                    records.add(record);
+                }
             }
         }
         return records;
@@ -145,8 +149,10 @@ public class AccountSummaryActivity extends BaseActivity {
 
     public List<String> getRecordStr (List<Record> records){
         List<String> recordStrs = new ArrayList<>();
-        for (Record record: records){
-            recordStrs.add(record.name);
+        if (records != null) {
+            for (Record record : records) {
+                recordStrs.add(record.name);
+            }
         }
         return recordStrs;
     }
