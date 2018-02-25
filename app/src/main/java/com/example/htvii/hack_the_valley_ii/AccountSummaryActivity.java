@@ -156,7 +156,7 @@ public class AccountSummaryActivity extends BaseActivity {
         List<String> recordStrs = new ArrayList<>();
         if (records != null) {
             for (Record record : records) {
-                recordStrs.add(record.name);
+                recordStrs.add(record.name + " -$" + String.format("%.2f", -record.transaction));
             }
         }
         return recordStrs;
