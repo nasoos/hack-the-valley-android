@@ -19,27 +19,44 @@ public class RecordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         curRecord = getRecord(getIntent().getStringExtra("recordID"));
-        Button submitButton = (Button) findViewById(R.id.submitButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText recordName = (EditText) findViewById(R.id.recordName);
-                EditText expense = (EditText) findViewById(R.id.expense);
-                Date date = getToday();
-                curRecord.name = recordName.getText().toString();
-                curRecord.transaction = Float.parseFloat(expense.getText().toString());
-                curRecord.year = date.getYear();
-                curRecord.month = date.getMonth();
-                curRecord.day = date.getDay();
 
-                returnToHome();
-            }
-        });
+        if(curRecord != null) {
+            Button submitButton = (Button) findViewById(R.id.submitButton);
+            View deleteButton = (View) findViewById(R.id.delete);
+            EditText recordName = (EditText) findViewById(R.id.recordName);
+            EditText expense = (EditText) findViewById(R.id.expense);
+            recordName.setText(curRecord.name);
+            expense.setText(String.valueOf(curRecord.transaction));
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    accountData.records.remove(curRecord);
+                    returnToHome();
+                }
+            });
+
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    EditText recordName = (EditText) findViewById(R.id.recordName);
+                    EditText expense = (EditText) findViewById(R.id.expense);
+                    Date date = getToday();
+                    curRecord.name = recordName.getText().toString();
+                    curRecord.transaction = Float.parseFloat(expense.getText().toString());
+                    curRecord.year = date.getYear();
+                    curRecord.month = date.getMonth();
+                    curRecord.day = date.getDay();
+
+                    returnToHome();
+                }
+            });
+        }
     }
 
     private Record getRecord(String recordID){
         for (int i = 0; i < accountData.records.size(); i++){
-            if (accountData.records.get(i).name == recordID){
+            if (accountData.records.get(i).name.matches(recordID)){
                 return accountData.records.get(i);
             }
         }

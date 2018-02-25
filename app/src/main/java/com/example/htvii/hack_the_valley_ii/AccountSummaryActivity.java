@@ -49,6 +49,9 @@ public class AccountSummaryActivity extends BaseActivity {
         if (accountData != null && accountData.records != null) {
             TextView balance = (TextView) findViewById(R.id.balance);
             balance.setText("$" + String.format("%.2f", getBalance()));
+            if (getBalance() < 0){
+                balance.setText("- $" + String.format("%.2f", -getBalance()));
+            }
             TextView accountName = (TextView) findViewById(R.id.accountname);
             accountName.setText(getAccountName());
             List<Record> recordlist = getRecord(getToday());
