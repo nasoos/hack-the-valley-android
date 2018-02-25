@@ -4,40 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.example.htvii.hack_the_valley_ii.models.AccountData;
 import com.example.htvii.hack_the_valley_ii.models.Record;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.Inet4Address;
+import com.microsoft.windowsazure.mobileservices.*;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,6 +27,8 @@ public class BaseActivity extends AppCompatActivity
 
     private Intent intent;
     private Menu nav_menu;
+
+    public static String fileName = "accountData.ser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +38,13 @@ public class BaseActivity extends AppCompatActivity
 
     //TODO: Load account data from database instead of the temp data
     private void loadAccountData() {
-        accountData = new AccountData();
         intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        Bundle bundle = null;
+        if (intent != null) {
+            bundle = intent.getExtras();
+        }
         if (bundle != null) {
+            accountData = new AccountData();
             accountData.accountName = (String) bundle.getSerializable("accountName");
             int count = (int) bundle.getSerializable("count");
             accountData.records = new ArrayList<Record>();
@@ -66,14 +53,18 @@ public class BaseActivity extends AppCompatActivity
             }
         }
         else {
-            accountData = new AccountData();
-            accountData.accountName = "Youth Account";
-            accountData.records = new ArrayList<Record>();
-            accountData.records.add(new Record("Chicken", -9.54f, getToday()));
-            accountData.records.add(new Record("Cabbage", -19.20f, getToday()));
-            accountData.records.add(new Record("Eggs", -3.54f, getToday()));
-            accountData.records.add(new Record("Carrots", -8.54f, new Date(2018, 1, 22)));
-            accountData.records.add(new Record("Pizza", -87.54f, new Date(2018, 1, 24)));
+            loadFromFile();
+            if (accountData == null) {
+                accountData = new AccountData();
+                accountData = new AccountData();
+                accountData.accountName = "Youth Account";
+                accountData.records = new ArrayList<Record>();
+                accountData.records.add(new Record("Chicken", -9.54f, getToday()));
+                accountData.records.add(new Record("Cabbage", -19.20f, getToday()));
+                accountData.records.add(new Record("Eggs", -3.54f, getToday()));
+                accountData.records.add(new Record("Carrots", -8.54f, new Date(2018, 1, 22)));
+                accountData.records.add(new Record("Pizza", -87.54f, new Date(2018, 1, 24)));
+            }
         }
     }
 
@@ -142,7 +133,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public void onPause(){
         super.onPause();
-        //saveData();
+        saveToFile();
     }
 
     @Override
@@ -196,7 +187,4 @@ public class BaseActivity extends AppCompatActivity
     public Date getToday(){
         return Calendar.getInstance().getTime();
     }
-
-    public static String fileName = "createResumeForm.ser";
-
 }
