@@ -21,9 +21,10 @@ public class MakePhotoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_photo);
-        frameLayout = (FrameLayout)findViewById(R.id.pictureCanvas);
+        frameLayout = (FrameLayout)findViewById(R.id.frameLayout);
         camera = Camera.open();
         showCamera = new ShowCamera(this,camera);
+        frameLayout.addView(showCamera);
     }
 
     Camera.PictureCallback mPictureCallBack = new Camera.PictureCallback() {

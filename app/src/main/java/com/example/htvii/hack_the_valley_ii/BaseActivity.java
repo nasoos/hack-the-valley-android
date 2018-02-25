@@ -198,5 +198,5 @@ public class BaseActivity extends AppCompatActivity
     }
 
     public static String fileName = "createResumeForm.ser";
-g
+
 }

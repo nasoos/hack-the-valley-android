@@ -27,7 +27,7 @@
         android:text="Gallery" />
 
     <FrameLayout
-        android:id="@+id/pictureCanvas"
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/button"
