@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\ton3wu\Documents\GitHub\hack-the-valley-android\app\app.iml" filepath="C:\Users\ton3wu\Documents\GitHub\hack-the-valley-android\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/hack-the-valley-android.iml" filepath="$PROJECT_DIR$/hack-the-valley-android.iml" />
+      <module fileurl="file://C:\Users\ton3wu\Documents\GitHub\hack-the-valley-android\hack-the-valley-android.iml" filepath="C:\Users\ton3wu\Documents\GitHub\hack-the-valley-android\hack-the-valley-android.iml" />
     </modules>
   </component>
 </project>

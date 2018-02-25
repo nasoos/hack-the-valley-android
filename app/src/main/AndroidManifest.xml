@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.htvii.hack_the_valley_ii">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -37,6 +38,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.htvii.hack_the_valley_ii.AccountSummaryActivity" />
         </activity>
+        <activity android:name=".MakePhotoActivity" />
     </application>
 
 </manifest>
