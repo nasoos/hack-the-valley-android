@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class MakePhotoActivity extends AppCompatActivity {
+public class MakePhotoActivity extends BaseActivity {
 
     Camera camera;
     FrameLayout frameLayout;
@@ -22,7 +22,6 @@ public class MakePhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_photo);
         frameLayout = (FrameLayout)findViewById(R.id.pictureCanvas);
-
         camera = Camera.open();
         showCamera = new ShowCamera(this,camera);
     }

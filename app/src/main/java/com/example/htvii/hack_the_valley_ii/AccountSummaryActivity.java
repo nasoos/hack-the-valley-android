@@ -77,7 +77,7 @@ public class AccountSummaryActivity extends BaseActivity {
             ImageButton cameraButton = findViewById(R.id.camerarecord);
             cameraButton.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
-
+                    onCameraButtonClick();
                 }
             });
 
@@ -96,7 +96,7 @@ public class AccountSummaryActivity extends BaseActivity {
         }
     }
 
-    //TODO: do something wit the image
+    //TODO: do something with the image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK){
@@ -106,7 +106,7 @@ public class AccountSummaryActivity extends BaseActivity {
                 try {
                     inputStream = getContentResolver().openInputStream(imageUri);
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText( this , "Unable to open Image", Toast.LENGTH_LONG).show();
@@ -153,5 +153,8 @@ public class AccountSummaryActivity extends BaseActivity {
 
     private void onManualButtonClick(){
         navigate(new Intent(this, ManualRecordActivity.class));
+    }
+    private void onCameraButtonClick(){
+        navigate(new Intent(this, MakePhotoActivity.class));
     }
 }

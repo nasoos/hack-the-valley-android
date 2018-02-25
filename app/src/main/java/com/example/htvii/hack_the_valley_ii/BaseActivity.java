@@ -2,9 +2,12 @@ package com.example.htvii.hack_the_valley_ii;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,7 +25,13 @@ import com.example.htvii.hack_the_valley_ii.models.AccountData;
 import com.example.htvii.hack_the_valley_ii.models.Record;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
 import java.util.ArrayList;
@@ -131,6 +140,12 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        //saveData();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.base, menu);
@@ -181,4 +196,7 @@ public class BaseActivity extends AppCompatActivity
     public Date getToday(){
         return Calendar.getInstance().getTime();
     }
+
+    public static String fileName = "createResumeForm.ser";
+g
 }
