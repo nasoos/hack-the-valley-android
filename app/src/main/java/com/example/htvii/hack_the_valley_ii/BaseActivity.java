@@ -202,4 +202,5 @@ public class BaseActivity extends AppCompatActivity
         accountData = new AccountData();
         accountData = gson.fromJson(data, AccountData.class);
     }
+
 }

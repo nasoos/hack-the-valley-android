@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -20,6 +22,7 @@ import com.example.htvii.hack_the_valley_ii.models.Record;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -61,38 +64,37 @@ public class AccountSummaryActivity extends BaseActivity {
                 record.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                    TextView text = (TextView) view;
-                    navigateToRecord((String) text.getText());
-                    }
-                });
-
-                ImageButton manualButton = findViewById(R.id.manualrecord);
-                manualButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                    onManualButtonClick();
-                    }
-                });
-
-                ImageButton cameraButton = findViewById(R.id.camerarecord);
-                cameraButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        onCameraButtonClick();
-                    }
-                });
-
-                ImageButton galleryButton = findViewById(R.id.galleryrecord);
-                galleryButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                        String pictureDirectoryPath = pictureDirectory.getPath();
-
-                        Uri data = Uri.parse(pictureDirectoryPath);
-                        photoPickerIntent.setDataAndType(data, "image/*");
-                        startActivityForResult(photoPickerIntent, IMAGE_GALLERY_RESULT);
+                        TextView text = (TextView) view;
+                        navigateToRecord((String) text.getText());
                     }
                 });
             }
+            ImageButton manualButton = findViewById(R.id.manualrecord);
+            manualButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                onManualButtonClick();
+                }
+            });
+
+            ImageButton cameraButton = findViewById(R.id.camerarecord);
+            cameraButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    onCameraButtonClick();
+                }
+            });
+
+            ImageButton galleryButton = findViewById(R.id.galleryrecord);
+            galleryButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    String pictureDirectoryPath = pictureDirectory.getPath();
+
+                    Uri data = Uri.parse(pictureDirectoryPath);
+                    photoPickerIntent.setDataAndType(data, "image/*");
+                    startActivityForResult(photoPickerIntent, IMAGE_GALLERY_RESULT);
+                }
+            });
         }
     }
 
@@ -106,7 +108,7 @@ public class AccountSummaryActivity extends BaseActivity {
                 try {
                     inputStream = getContentResolver().openInputStream(imageUri);
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
+                    String request = to64(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText( this , "Unable to open Image", Toast.LENGTH_LONG).show();
@@ -115,10 +117,10 @@ public class AccountSummaryActivity extends BaseActivity {
         }
     }
 
-
-    //TODO: implement logic
     private void navigateToRecord(String record){
-        navigate(new Intent(this, RecordActivity.class));
+        Intent recordIntent = new Intent(this, RecordActivity.class);
+        recordIntent.putExtra("recordID", record);
+        navigate(recordIntent);
     }
 
     public float getBalance(){
@@ -160,7 +162,15 @@ public class AccountSummaryActivity extends BaseActivity {
     private void onManualButtonClick(){
         navigate(new Intent(this, ManualRecordActivity.class));
     }
+
     private void onCameraButtonClick(){
         navigate(new Intent(this, MakePhotoActivity.class));
+    }
+
+    public String to64 (Bitmap bitmap){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+
+        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }
 }
