@@ -187,4 +187,19 @@ public class BaseActivity extends AppCompatActivity
     public Date getToday(){
         return Calendar.getInstance().getTime();
     }
+
+    private void saveToFile() {
+        SharedPreferences mPrefs = getSharedPreferences("HTVPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = mPrefs.edit();
+        Gson gson = new Gson();
+        ed.putString("accountData", gson.toJson(accountData));
+        ed.commit();
+    }
+
+    private void loadFromFile(){
+        Gson gson = new Gson();
+        String data = getSharedPreferences("HTVPref", Context.MODE_PRIVATE).getString("accountData", null);
+        accountData = new AccountData();
+        accountData = gson.fromJson(data, AccountData.class);
+    }
 }
